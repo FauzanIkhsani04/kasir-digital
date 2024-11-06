@@ -1,0 +1,22 @@
+/* src/components/Header.css */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2em;
+}
+
+.search-bar {
+  padding: 10px;
+  width: 200px;
+}
+
+.icons span {
+  margin: 0 5px;
+  font-size: 1.5em;
+}

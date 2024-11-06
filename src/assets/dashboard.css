@@ -1,0 +1,17 @@
+/* src/components/Dashboard.css */
+
+.dashboard h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.dashboard p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}

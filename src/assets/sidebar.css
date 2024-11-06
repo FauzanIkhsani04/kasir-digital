@@ -1,0 +1,33 @@
+/* src/components/Sidebar.css */
+
+.sidebar {
+  width: 200px;
+  background-color: #1a2f2b;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar .logo {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.sidebar .menu h3 {
+  font-size: 1em;
+  color: #aaa;
+  margin-top: 20px;
+}
+
+.sidebar .menu ul {
+  list-style-type: none;
+}
+
+.sidebar .menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #324c48;
+  border-radius: 5px;
+}
