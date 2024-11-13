@@ -1,31 +1,22 @@
-// src/components/Sidebar.js
 import React from "react";
-import "../assets/sidebar.css"; // You can create this file for specific Sidebar styles
+import { Link } from "react-router-dom"; // Import Link
+import "../assets/sidebar.css";
+import "../dashboard/dashboard.jsx";
 
 const Sidebar = () => {
   return (
     <aside className="sidebar">
-      <div className="logo">Website</div>
+      <div className="logo">
+        <a href="/dashboard">Website</a>
+      </div>
       <nav className="menu">
         <h3>Menu</h3>
         <ul>
           <li>
-            <a href="#">Feature</a>
+            <Link to="/order">Order</Link> {/* Use Link for navigation */}
           </li>
           <li>
-            <a href="#">Feature</a>
-          </li>
-          <li>
-            <a href="#">Feature</a>
-          </li>
-          <li>
-            <a href="#">Feature</a>
-          </li>
-        </ul>
-        <h3>General</h3>
-        <ul>
-          <li>
-            <a href="#">Feature</a>
+            <Link to="/">Dashboard</Link>
           </li>
         </ul>
       </nav>
