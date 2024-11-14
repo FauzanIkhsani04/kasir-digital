@@ -1,17 +1,97 @@
-/* src/components/Dashboard.css */
-
-.dashboard h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.dashboard p {
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #143d39;
+  color: #fff;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
   margin-bottom: 20px;
+}
+
+.menu h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.menu ul {
+  list-style: none;
+}
+
+.menu li {
+  padding: 10px 0;
+  font-size: 0.9em;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 2em;
+}
+
+.date-selector {
+  font-size: 0.9em;
   color: #555;
 }
 
-.card-container {
+.dashboard {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.dashboard p {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.dashboard-cards {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background-color: #333;
+  border-radius: 8px;
+  height: 200px;
+}
+
+.large-card {
+  grid-column: span 2;
+  height: 300px;
+}
+
+.medium-card {
+  height: 250px;
+}
+
+.small-card {
+  height: 200px;
 }

@@ -7,6 +7,10 @@
   padding: 20px;
 }
 
+.sidebar nav {
+  position: relative;
+}
+
 .sidebar .logo {
   font-size: 1.5em;
   margin-bottom: 20px;

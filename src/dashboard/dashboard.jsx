@@ -1,21 +1,24 @@
-// src/components/Dashboard.js
 import React from "react";
-import Card from "./card";
-import "../assets/dashboard.css"; // You can create this file for specific Dashboard styles
+import "../assets/dashboard.css"; // Import the CSS file for styling
 
 const Dashboard = () => {
   return (
-    <section className="dashboard">
-      <h2>Dashboard</h2>
-      <p>Way to manage sales</p>
-      <div className="card-container">
-        <Card size="large" />
-        <Card size="small" />
-        <Card size="small" />
-        <Card size="medium" />
-        <Card size="medium" />
-      </div>
-    </section>
+    <div className="dashboard-container">
+      <main className="content">
+        <header className="header">
+          <div className="date-selector">November 2024 - December 2024</div>
+        </header>
+        <section className="dashboard">
+          <div className="dashboard-cards">
+            <div className="card large-card"></div>
+            <div className="card small-card"></div>
+            <div className="card small-card"></div>
+            <div className="card medium-card"></div>
+            <div className="card medium-card"></div>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 };
 

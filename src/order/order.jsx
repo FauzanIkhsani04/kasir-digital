@@ -3,7 +3,7 @@ import "../assets/order.css";
 
 const Order = () => {
   const [selectedItems, setSelectedItems] = useState([]);
-  const menuItems = Array(12).fill({ name: "Cakes", price: 27000 });
+  const menuItems = Array(12).fill({ name: "Sate Ayam 1 Porsi", price: 25000 });
 
   const handleAddItem = (item) => {
     setSelectedItems([...selectedItems, item]);
