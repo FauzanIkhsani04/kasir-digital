@@ -1,12 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase/firebase"; // Adjust path as necessary
+import { collection, getDocs } from "firebase/firestore";
 import "../assets/order.css";
 
 const Order = () => {
+  const [menuItems, setMenuItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const menuItems = Array(12).fill({ name: "Sate Ayam 1 Porsi", price: 25000 });
+  const [customerName, setCustomerName] = useState("Customer's Name");
+  const [orderNumber, setOrderNumber] = useState(0);
+  const [currentDate, setCurrentDate] = useState("");
+  const [currentTime, setCurrentTime] = useState("");
+
+  // Fetch menu items from Firestore
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "menu"));
+        const items = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMenuItems(items);
+      } catch (error) {
+        console.error("Error fetching data from Firestore:", error);
+      }
+    };
+
+    fetchMenuItems();
+  }, []);
+
+  // Update date and time
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+      const options = { weekday: "long", day: "numeric", month: "long", year: "numeric" };
+      setCurrentDate(now.toLocaleDateString("en-US", options));
+      setCurrentTime(now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }));
+    };
+
+    updateDateTime();
+    const interval = setInterval(updateDateTime, 1000); // Update every second
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
   const handleAddItem = (item) => {
     setSelectedItems([...selectedItems, item]);
+  };
+
+  const handleRemoveItem = (index) => {
+    setSelectedItems(selectedItems.filter((_, i) => i !== index));
   };
 
   const handleClearOrder = () => {
@@ -14,16 +57,15 @@ const Order = () => {
   };
 
   const subtotal = selectedItems.reduce((acc, item) => acc + item.price, 0);
-  const tax = subtotal * 0.05;
-  const total = subtotal + tax;
+  const total = subtotal;
 
   return (
     <div className="app">
       {/* Left Panel: Menu Items */}
       <div className="menu">
         <div className="header">
-          <div className="date">Thursday, 25 March 2024</div>
-          <div className="time">09:00 AM</div>
+          <div className="date">{currentDate}</div>
+          <div className="time">{currentTime}</div>
           <button className="close-order" onClick={handleClearOrder}>
             Close Order
           </button>
@@ -40,8 +82,8 @@ const Order = () => {
         <input className="search" type="text" placeholder="Search something on your mind" />
 
         <div className="menu-items">
-          {menuItems.map((item, index) => (
-            <div className="menu-item" key={index} onClick={() => handleAddItem(item)}>
+          {menuItems.map((item) => (
+            <div className="menu-item" key={item.id} onClick={() => handleAddItem(item)}>
               <div className="item-name">{item.name}</div>
               <div className="item-price">Rp {item.price}</div>
             </div>
@@ -52,8 +94,8 @@ const Order = () => {
       {/* Right Panel: Order Summary */}
       <div className="order-summary">
         <div className="order-header">
-          <h2>Customer's Name</h2>
-          <div>Order #000</div>
+          <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Enter Customer's Name" className="customer-name-input" />
+          <input type="number" value={orderNumber} onChange={(e) => setOrderNumber(Number(e.target.value))} placeholder="Order Number" className="order-number-input" />
         </div>
 
         <div className="order-details">
@@ -62,6 +104,9 @@ const Order = () => {
               <div className="order-item" key={index}>
                 <span>{item.name}</span>
                 <span>Rp {item.price}</span>
+                <button className="remove-item-btn" onClick={() => handleRemoveItem(index)}>
+                  Remove
+                </button>
               </div>
             ))
           ) : (
@@ -74,10 +119,6 @@ const Order = () => {
           <div className="subtotal">
             <span>Subtotal</span>
             <span>Rp {subtotal}</span>
-          </div>
-          <div className="tax">
-            <span>Tax 5%</span>
-            <span>Rp {tax}</span>
           </div>
           <div className="total">
             <span>TOTAL</span>
