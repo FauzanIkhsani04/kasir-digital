@@ -5,13 +5,12 @@ import "../assets/order.css";
 
 const Order = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [customerName, setCustomerName] = useState("Customer's Name");
   const [orderNumber, setOrderNumber] = useState(0);
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State for showing payment popup
 
   // Fetch menu items from Firestore
   useEffect(() => {
@@ -23,7 +22,6 @@ const Order = () => {
           ...doc.data(),
         }));
         setMenuItems(items);
-        setFilteredItems(items); // Set initial filter to all items
       } catch (error) {
         console.error("Error fetching data from Firestore:", error);
       }
@@ -47,15 +45,6 @@ const Order = () => {
     return () => clearInterval(interval); // Cleanup on unmount
   }, []);
 
-  // Filter menu items based on selected category
-  useEffect(() => {
-    if (selectedCategory === "All") {
-      setFilteredItems(menuItems);
-    } else {
-      setFilteredItems(menuItems.filter(item => item.category === selectedCategory));
-    }
-  }, [selectedCategory, menuItems]);
-
   const handleAddItem = (item) => {
     setSelectedItems([...selectedItems, item]);
   };
@@ -68,8 +57,8 @@ const Order = () => {
     setSelectedItems([]);
   };
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+  const handlePlaceOrder = () => {
+    setShowPaymentPopup(true); // Show the payment popup when the order is placed
   };
 
   const subtotal = selectedItems.reduce((acc, item) => acc + item.price, 0);
@@ -88,42 +77,17 @@ const Order = () => {
         </div>
 
         <div className="categories">
-          <button
-            className={`category ${selectedCategory === "All" ? "active" : ""}`}
-            onClick={() => handleCategoryClick("All")}
-          >
-            All Menu
-          </button>
-          <button
-            className={`category ${selectedCategory === "Sate" ? "active" : ""}`}
-            onClick={() => handleCategoryClick("Sate")}
-          >
-            Sate
-          </button>
-          <button
-            className={`category ${selectedCategory === "Minuman" ? "active" : ""}`}
-            onClick={() => handleCategoryClick("Minuman")}
-          >
-            Minuman
-          </button>
-          <button
-            className={`category ${selectedCategory === "Sop" ? "active" : ""}`}
-            onClick={() => handleCategoryClick("Sop")}
-          >
-            Sop
-          </button>
-          <button
-            className={`category ${selectedCategory === "Lainnya" ? "active" : ""}`}
-            onClick={() => handleCategoryClick("Lainnya")}
-          >
-            Lainnya
-          </button>
+          <button className="category active">All Menu</button>
+          <button className="category">Sate</button>
+          <button className="category">Minuman</button>
+          <button className="category">Sop</button>
+          <button className="category">Lainnya</button>
         </div>
 
         <input className="search" type="text" placeholder="Search something on your mind" />
 
         <div className="menu-items">
-          {filteredItems.map((item) => (
+          {menuItems.map((item) => (
             <div className="menu-item" key={item.id} onClick={() => handleAddItem(item)}>
               <div className="item-name">{item.name}</div>
               <div className="item-price">Rp {item.price}</div>
@@ -135,20 +99,8 @@ const Order = () => {
       {/* Right Panel: Order Summary */}
       <div className="order-summary">
         <div className="order-header">
-          <input
-            type="text"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-            placeholder="Enter Customer's Name"
-            className="customer-name-input"
-          />
-          <input
-            type="number"
-            value={orderNumber}
-            onChange={(e) => setOrderNumber(Number(e.target.value))}
-            placeholder="Order Number"
-            className="order-number-input"
-          />
+          <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Enter Customer's Name" className="customer-name-input" />
+          <input type="number" value={orderNumber} onChange={(e) => setOrderNumber(Number(e.target.value))} placeholder="Order Number" className="order-number-input" />
         </div>
 
         <div className="order-details">
@@ -179,9 +131,28 @@ const Order = () => {
           </div>
         </div>
 
-        <button className="payment-btn">Payment Method</button>
-        <button className="place-order">Place Order</button>
+        <button className="payment-btn" onClick={handlePlaceOrder}>
+          Place Order
+        </button>
       </div>
+
+      {/* Payment Popup */}
+      {showPaymentPopup && (
+        <div className="payment-popup">
+          <div className="popup-content">
+            <h3>Select Payment Method</h3>
+            <button className="payment-option" onClick={() => alert("Payment via Cash")}>
+              Cash
+            </button>
+            <button className="payment-option" onClick={() => alert("Payment via QRIS")}>
+              QRIS
+            </button>
+            <button className="close-popup" onClick={() => setShowPaymentPopup(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
