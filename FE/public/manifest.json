@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Kasir Sate Tegal",
+  "name": "Kasir digital for tegal satay",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "Icon-kasir.png",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
