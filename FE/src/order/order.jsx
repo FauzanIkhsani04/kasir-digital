@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link for navigation
 import { db } from "../firebase/firebase"; // Adjust path as necessary
 import { collection, getDocs } from "firebase/firestore";
 import "../assets/order.css";
@@ -53,10 +54,6 @@ const Order = () => {
     setSelectedItems(selectedItems.filter((_, i) => i !== index));
   };
 
-  const handleClearOrder = () => {
-    setSelectedItems([]);
-  };
-
   const handlePlaceOrder = () => {
     setShowPaymentPopup(true); // Show the payment popup when the order is placed
   };
@@ -71,17 +68,13 @@ const Order = () => {
         <div className="header">
           <div className="date">{currentDate}</div>
           <div className="time">{currentTime}</div>
-          <button className="close-order" onClick={handleClearOrder}>
-            Close Order
-          </button>
+          <Link to="/menu" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Add Menu
+          </Link>
         </div>
 
         <div className="categories">
           <button className="category active">All Menu</button>
-          <button className="category">Sate</button>
-          <button className="category">Minuman</button>
-          <button className="category">Sop</button>
-          <button className="category">Lainnya</button>
         </div>
 
         <input className="search" type="text" placeholder="Search something on your mind" />
