@@ -19,6 +19,7 @@
 
 .form-container {
   margin-bottom: 20px;
+  margin-right: 10px;
   background-color: #fff;
   padding: 15px;
   border: 1px solid #ddd;
@@ -31,7 +32,7 @@
 }
 
 .form {
-  display: flex;
+  display: block;
   gap: 10px;
 }
 
