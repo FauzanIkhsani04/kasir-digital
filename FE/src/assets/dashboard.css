@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .dashboard-container {
@@ -42,6 +43,7 @@
 .content {
   flex: 1;
   padding: 20px;
+  max-height: 70%;
   background-color: #f9f9f9;
 }
 
@@ -64,6 +66,7 @@
 .dashboard {
   font-size: 1.5em;
   margin-bottom: 20px;
+  
 }
 
 .dashboard p {
