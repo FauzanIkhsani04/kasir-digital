@@ -1,3 +1,4 @@
+/* Reset dan Box-sizing */
 * {
   margin: 0;
   padding: 0;
@@ -5,73 +6,38 @@
   overflow: hidden;
 }
 
+/* Container Dashboard */
 .dashboard-container {
   display: flex;
   height: 100vh;
   font-family: Arial, sans-serif;
+  color: #333;
 }
 
-.sidebar {
-  width: 20%;
-  background-color: #143d39;
-  color: #fff;
-  padding: 20px;
-}
-
-.logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.menu h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 1em;
-  font-weight: bold;
-}
-
-.menu ul {
-  list-style: none;
-}
-
-.menu li {
-  padding: 10px 0;
-  font-size: 0.9em;
-}
-
+/* Bagian Konten Utama */
 .content {
   flex: 1;
   padding: 20px;
-  max-height: 70%;
   background-color: #f9f9f9;
+  overflow-y: auto;
 }
 
+/* Header */
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.header h1 {
-  font-size: 2em;
-}
-
 .date-selector {
-  font-size: 0.9em;
+  font-size: 1em;
   color: #555;
 }
 
+/* Bagian Dashboard */
 .dashboard {
   font-size: 1.5em;
-  margin-bottom: 20px;
-  
-}
-
-.dashboard p {
-  font-size: 0.9em;
-  color: #555;
 }
 
 .dashboard-cards {
@@ -80,21 +46,43 @@
   gap: 20px;
 }
 
+/* Kartu */
 .card {
   background-color: #333;
   border-radius: 8px;
   height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  font-size: 1.2em;
+  transition: transform 0.3s;
 }
 
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Ukuran Kartu */
 .large-card {
   grid-column: span 2;
   height: 300px;
 }
 
 .medium-card {
-  height: 250px;
+  height: 300px; /* Tinggi ditingkatkan untuk grafik */
+  padding: 10px;
 }
 
 .small-card {
   height: 200px;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
 }
