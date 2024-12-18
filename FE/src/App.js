@@ -13,7 +13,6 @@ function App() {
       <div className="container">
         <Sidebar />
         <main className="content">
-          <Header />
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/order" element={<Order />} />

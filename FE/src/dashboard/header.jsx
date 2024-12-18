@@ -5,7 +5,6 @@ import "../assets/header.css"; // You can create this file for specific Header s
 const Header = () => {
   return (
     <header className="header">
-      <h1>Sales Report</h1>
       <input type="text" placeholder="Search anything" className="search-bar" />
       <div className="icons">
         <span role="img" aria-label="notifications">
