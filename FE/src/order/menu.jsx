@@ -79,12 +79,12 @@ const AddMenu = () => {
     <div className="container">
       {/* Add New Menu Form */}
       <div className="form-container">
-        <h2>Add New Menu</h2>
+        <h2>Tambahkan Menu</h2>
         <div className="form">
-          <input type="text" placeholder="Menu Name" value={newItem.name} onChange={(e) => setNewItem({ ...newItem, name: e.target.value })} className="input" />
-          <input type="number" placeholder="Price" value={newItem.price} onChange={(e) => setNewItem({ ...newItem, price: e.target.value })} className="input" />
+          <input type="text" placeholder="nama menu" value={newItem.name} onChange={(e) => setNewItem({ ...newItem, name: e.target.value })} className="input" />
+          <input type="number" placeholder="Harga" value={newItem.price} onChange={(e) => setNewItem({ ...newItem, price: e.target.value })} className="input" />
           <button onClick={editingItemId ? handleUpdateMenuItem : handleAddMenuItem} className="button add-button">
-            {editingItemId ? "Update Menu" : "Add Menu"}
+            {editingItemId ? "Update Menu" : "Tambah menu"}
           </button>
         </div>
       </div>
@@ -94,10 +94,10 @@ const AddMenu = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Ubah</th>
+            <th>Hapus</th>
           </tr>
         </thead>
         <tbody>
@@ -108,12 +108,12 @@ const AddMenu = () => {
               <td>Rp {item.price}</td>
               <td>
                 <button onClick={() => handleEditMenuItem(item.id)} className="button edit-button">
-                  Edit
+                  Ubah
                 </button>
               </td>
               <td>
                 <button onClick={() => handleDeleteMenuItem(item.id)} className="button delete-button">
-                  Delete
+                  Hapus
                 </button>
               </td>
             </tr>

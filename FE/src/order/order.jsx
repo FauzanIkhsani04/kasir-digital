@@ -64,7 +64,7 @@ const Order = () => {
 
   const handlePlaceOrder = () => {
     if (!customerName.trim()) {
-      setError("Please enter the customer's name.");
+      setError("Silahkan Tambah Nama Pembeli.");
       return;
     }
     setError("");
@@ -90,7 +90,7 @@ const Order = () => {
     }, {});
 
     try {
-      await addDoc(collection(db, "bill"), {
+      await addDoc(collection(db, "Nota"), {
         customer: customerName,
         order: orderDetails,
         paid: total,
@@ -115,15 +115,15 @@ const Order = () => {
           <div className="date">{currentDate}</div>
           <div className="time">{currentTime}</div>
           <Link to="/menu" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Add Menu
+            Tambah Menu
           </Link>
         </div>
 
         <div className="categories">
-          <button className="category active">All Menu</button>
+          <button className="category active">Semua Menu</button>
         </div>
 
-        <input className="search" type="text" placeholder="Search something on your mind" value={searchQuery} onChange={handleSearch} />
+        <input className="search" type="text" placeholder="Cari menu" value={searchQuery} onChange={handleSearch} />
 
         <div className="menu-items">
           {filteredItems.map((item) => (
@@ -171,7 +171,7 @@ const Order = () => {
         </div>
 
         <button className="payment-btn" onClick={handlePlaceOrder}>
-          Place Order
+          Beli
         </button>
       </div>
 
@@ -179,7 +179,7 @@ const Order = () => {
       {showPaymentPopup && (
         <div className="payment-popup">
           <div className="popup-content">
-            <h3>Select Payment Method</h3>
+            <h3>Silahkan pilih metode Pembayaran</h3>
             <button className="payment-option" onClick={() => handlePaymentMethod("cash")}>
               <FaMoneyBillWave className="payment-icon" /> Cash
             </button>
@@ -187,7 +187,7 @@ const Order = () => {
               <FaQrcode className="payment-icon" /> QRIS
             </button>
             <button className="close-popup" onClick={() => setShowPaymentPopup(false)}>
-              Close
+              Tutup
             </button>
           </div>
         </div>
@@ -197,7 +197,7 @@ const Order = () => {
       {showSummaryPopup && (
         <div className="summary-popup">
           <div className="popup-content">
-            <h3>Order Summary</h3>
+            <h3>Rincian Pesanan</h3>
             <ul>
               {selectedItems.map((item, index) => (
                 <li key={index}>
@@ -209,14 +209,14 @@ const Order = () => {
             {paymentMethod === "cash" && (
               <div>
                 <input type="number" value={cashPaid} onChange={(e) => setCashPaid(Number(e.target.value))} placeholder="Enter payment amount" />
-                <div>Change: Rp {change >= 0 ? change : 0}</div>
+                <div> Kembalian: Rp {change >= 0 ? change : 0}</div>
               </div>
             )}
             <button className="confirm-btn" onClick={handleConfirmPayment}>
               Lunas
             </button>
             <button className="cancel-btn" onClick={() => setShowSummaryPopup(false)}>
-              Cancel
+              Batalkan
             </button>
           </div>
         </div>

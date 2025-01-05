@@ -51,6 +51,7 @@
 }
 
 .add-button {
+  margin-top: 10px;
   background-color: #28a745;
   color: white;
 }
