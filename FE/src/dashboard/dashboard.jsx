@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import "../assets/dashboard.css"; // Import the CSS file for styling
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend } from "chart.js";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase/firebase"; // Pastikan konfigurasi Firebase benar
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { db } from "../firebase/firebase"; // Make sure Firebase configuration is correct
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const Dashboard = () => {
   const [chartData, setChartData] = useState(null);
+  const [orderHistory, setOrderHistory] = useState([]);
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -35,7 +36,19 @@ const Dashboard = () => {
       });
     };
 
+    const fetchOrderHistory = async () => {
+      const orderData = [];
+      const orderQuery = query(collection(db, "bill"), orderBy("timestamp", "desc"), limit(5));
+      const querySnapshot = await getDocs(orderQuery);
+      querySnapshot.forEach((doc) => {
+        const { customer, paid } = doc.data();
+        orderData.push({ id: doc.id, customer, paid });
+      });
+      setOrderHistory(orderData);
+    };
+
     fetchChartData();
+    fetchOrderHistory();
   }, []);
 
   return (
@@ -46,21 +59,8 @@ const Dashboard = () => {
         </header>
         <section className="dashboard">
           <div className="dashboard-cards">
-            {/* Large Card */}
+            {/* Chart Card */}
             <div className="card large-card">
-              <h3>Overview</h3>
-            </div>
-
-            {/* Small Cards */}
-            <div className="card small-card">
-              <h3>New Users</h3>
-            </div>
-            <div className="card small-card">
-              <h3>Revenue</h3>
-            </div>
-
-            {/* Medium Card for Chart */}
-            <div className="card medium-card">
               <h3>Menu Price Chart</h3>
               {chartData ? (
                 <Bar
@@ -75,9 +75,25 @@ const Dashboard = () => {
               )}
             </div>
 
-            {/* Another Medium Card */}
-            <div className="card medium-card">
-              <h3>Tasks</h3>
+            {/* Order History Card */}
+            <div className="card large-card">
+              <h3>Recent Order History</h3>
+              {orderHistory.length > 0 ? (
+                <ul className="order-history-list">
+                  {orderHistory.map((order) => (
+                    <li key={order.id} className="order-item">
+                      <p>
+                        <strong>Customer:</strong> {order.customer}
+                      </p>
+                      <p>
+                        <strong>Total Paid:</strong> Rp {order.paid}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No recent orders.</p>
+              )}
             </div>
           </div>
         </section>
