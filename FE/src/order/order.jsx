@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate for navigation
+import { Link } from "react-router-dom"; // Import Link for navigation
 import { db } from "../firebase/firebase"; // Adjust path as necessary
-import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import "../assets/order.css";
-import { FaQrcode, FaMoneyBillWave } from "react-icons/fa"; // Import icons for QRIS and Cash
 
 const Order = () => {
   const [menuItems, setMenuItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]); // State for filtered items
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-  const [customerName, setCustomerName] = useState("");
+  const [customerName, setCustomerName] = useState("Customer's Name");
+  const [orderNumber, setOrderNumber] = useState(0);
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [showPaymentPopup, setShowPaymentPopup] = useState(false); // State for showing payment popup
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [showSummaryPopup, setShowSummaryPopup] = useState(false);
-  const [cashPaid, setCashPaid] = useState(0);
-  const [error, setError] = useState(""); // State for customer name validation
-  const navigate = useNavigate();
 
   // Fetch menu items from Firestore
   useEffect(() => {
@@ -30,7 +23,6 @@ const Order = () => {
           ...doc.data(),
         }));
         setMenuItems(items);
-        setFilteredItems(items); // Initially, all items are displayed
       } catch (error) {
         console.error("Error fetching data from Firestore:", error);
       }
@@ -63,49 +55,11 @@ const Order = () => {
   };
 
   const handlePlaceOrder = () => {
-    if (!customerName.trim()) {
-      setError("Please enter the customer's name.");
-      return;
-    }
-    setError("");
     setShowPaymentPopup(true); // Show the payment popup when the order is placed
-  };
-
-  const handleSearch = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-    setFilteredItems(menuItems.filter((item) => item.name.toLowerCase().includes(query)));
-  };
-
-  const handlePaymentMethod = (method) => {
-    setPaymentMethod(method);
-    setShowPaymentPopup(false);
-    setShowSummaryPopup(true);
-  };
-
-  const handleConfirmPayment = async () => {
-    const orderDetails = selectedItems.reduce((acc, item, index) => {
-      acc[`order-${index + 1}`] = item;
-      return acc;
-    }, {});
-
-    try {
-      await addDoc(collection(db, "bill"), {
-        customer: customerName,
-        order: orderDetails,
-        paid: total,
-        "payment-method": paymentMethod,
-        timestamp: serverTimestamp(),
-      });
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error saving to Firestore:", error);
-    }
   };
 
   const subtotal = selectedItems.reduce((acc, item) => acc + item.price, 0);
   const total = subtotal;
-  const change = cashPaid - total;
 
   return (
     <div className="app">
@@ -123,10 +77,10 @@ const Order = () => {
           <button className="category active">All Menu</button>
         </div>
 
-        <input className="search" type="text" placeholder="Search something on your mind" value={searchQuery} onChange={handleSearch} />
+        <input className="search" type="text" placeholder="Search something on your mind" />
 
         <div className="menu-items">
-          {filteredItems.map((item) => (
+          {menuItems.map((item) => (
             <div className="menu-item" key={item.id} onClick={() => handleAddItem(item)}>
               <div className="item-name">{item.name}</div>
               <div className="item-price">Rp {item.price}</div>
@@ -138,8 +92,8 @@ const Order = () => {
       {/* Right Panel: Order Summary */}
       <div className="order-summary">
         <div className="order-header">
-          <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Nama" className="customer-name-input" />
-          {error && <p className="error-message">{error}</p>}
+          <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Enter Customer's Name" className="customer-name-input" />
+          <input type="number" value={orderNumber} onChange={(e) => setOrderNumber(Number(e.target.value))} placeholder="Order Number" className="order-number-input" />
         </div>
 
         <div className="order-details">
@@ -180,43 +134,14 @@ const Order = () => {
         <div className="payment-popup">
           <div className="popup-content">
             <h3>Select Payment Method</h3>
-            <button className="payment-option" onClick={() => handlePaymentMethod("cash")}>
-              <FaMoneyBillWave className="payment-icon" /> Cash
+            <button className="payment-option" onClick={() => alert("Payment via Cash")}>
+              Cash
             </button>
-            <button className="payment-option" onClick={() => handlePaymentMethod("qris")}>
-              <FaQrcode className="payment-icon" /> QRIS
+            <button className="payment-option" onClick={() => alert("Payment via QRIS")}>
+              QRIS
             </button>
             <button className="close-popup" onClick={() => setShowPaymentPopup(false)}>
               Close
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Summary Popup */}
-      {showSummaryPopup && (
-        <div className="summary-popup">
-          <div className="popup-content">
-            <h3>Order Summary</h3>
-            <ul>
-              {selectedItems.map((item, index) => (
-                <li key={index}>
-                  {item.name} - Rp {item.price}
-                </li>
-              ))}
-            </ul>
-            <div className="total">Total: Rp {total}</div>
-            {paymentMethod === "cash" && (
-              <div>
-                <input type="number" value={cashPaid} onChange={(e) => setCashPaid(Number(e.target.value))} placeholder="Enter payment amount" />
-                <div>Change: Rp {change >= 0 ? change : 0}</div>
-              </div>
-            )}
-            <button className="confirm-btn" onClick={handleConfirmPayment}>
-              Lunas
-            </button>
-            <button className="cancel-btn" onClick={() => setShowSummaryPopup(false)}>
-              Cancel
             </button>
           </div>
         </div>

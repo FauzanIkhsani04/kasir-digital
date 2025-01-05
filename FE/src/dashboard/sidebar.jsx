@@ -13,7 +13,7 @@ const Sidebar = () => {
       <nav className="menu">
         <ul>
           <li>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/">Dashboard</Link>
           </li>
           <li>
             <Link to="/order">Order</Link>
