@@ -113,7 +113,7 @@
 
 /* Order Summary Section */
 .order-summary {
-  width: 30%;
+  width: 40%;
   height: 80%;
   padding: 20px;
   border-left: 1px solid #ddd;
@@ -160,15 +160,16 @@
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
+  font-size: medium;
 }
 
 .order-item button {
   background: none;
-  border: none;
+  border:none;
   color: #ff4b5c;
   cursor: pointer;
   font-size: 14px;
-  transition: color 0.3s ease;
+  transition: color 8s ease;
 }
 
 .order-item button:hover {

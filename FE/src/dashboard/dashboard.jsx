@@ -26,7 +26,7 @@ const Dashboard = () => {
         labels,
         datasets: [
           {
-            label: "Menu Prices (IDR)",
+            label: "Harga Menu (IDR)",
             data: values,
             backgroundColor: "rgba(75, 192, 192, 0.6)",
             borderColor: "rgba(75, 192, 192, 1)",
@@ -55,13 +55,13 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <main className="content">
         <header className="header">
-          <div className="date-selector">November 2024 - December 2024</div>
+          <div className="date-selector">Desember 2024 - Januari 2025</div>
         </header>
         <section className="dashboard">
           <div className="dashboard-cards">
             {/* Chart Card */}
             <div className="card large-card">
-              <h3>Menu Price Chart</h3>
+              <h3>Grafik Harga Menu</h3>
               {chartData ? (
                 <Bar
                   data={chartData}
@@ -77,7 +77,7 @@ const Dashboard = () => {
 
             {/* Order History Card */}
             <div className="card large-card">
-              <h3>Recent Order History</h3>
+              <h3>Riwayat Order</h3>
               {orderHistory.length > 0 ? (
                 <ul className="order-history-list">
                   {orderHistory.map((order) => (
@@ -86,13 +86,13 @@ const Dashboard = () => {
                         <strong>Customer:</strong> {order.customer}
                       </p>
                       <p>
-                        <strong>Total Paid:</strong> Rp {order.paid}
+                        <strong>Total Bayar:</strong> Rp {order.paid}
                       </p>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p>No recent orders.</p>
+                <p>No orders.</p>
               )}
             </div>
           </div>

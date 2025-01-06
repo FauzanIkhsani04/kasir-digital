@@ -64,7 +64,7 @@ const Order = () => {
 
   const handlePlaceOrder = () => {
     if (!customerName.trim()) {
-      setError("Please enter the customer's name.");
+      setError("Harap Masukan Nama Pelanggan.");
       return;
     }
     setError("");
@@ -90,7 +90,7 @@ const Order = () => {
     }, {});
 
     try {
-      await addDoc(collection(db, "bill"), {
+      await addDoc(collection(db, "Nota"), {
         customer: customerName,
         order: orderDetails,
         paid: total,
@@ -120,10 +120,10 @@ const Order = () => {
         </div>
 
         <div className="categories">
-          <button className="category active">All Menu</button>
+          <button className="category active">Semua Menu</button>
         </div>
 
-        <input className="search" type="text" placeholder="Search something on your mind" value={searchQuery} onChange={handleSearch} />
+        <input className="search" type="text" placeholder="Temukan Menu" value={searchQuery} onChange={handleSearch} />
 
         <div className="menu-items">
           {filteredItems.map((item) => (
@@ -154,7 +154,7 @@ const Order = () => {
               </div>
             ))
           ) : (
-            <div className="no-items">No Item Selected</div>
+            <div className="no-items">Tidak Ada Item</div>
           )}
         </div>
 
@@ -171,7 +171,7 @@ const Order = () => {
         </div>
 
         <button className="payment-btn" onClick={handlePlaceOrder}>
-          Place Order
+          Pesan
         </button>
       </div>
 
@@ -179,7 +179,7 @@ const Order = () => {
       {showPaymentPopup && (
         <div className="payment-popup">
           <div className="popup-content">
-            <h3>Select Payment Method</h3>
+            <h3>Pilih Metode Pembayaran</h3>
             <button className="payment-option" onClick={() => handlePaymentMethod("cash")}>
               <FaMoneyBillWave className="payment-icon" /> Cash
             </button>
@@ -197,7 +197,7 @@ const Order = () => {
       {showSummaryPopup && (
         <div className="summary-popup">
           <div className="popup-content">
-            <h3>Order Summary</h3>
+            <h3>Rincian</h3>
             <ul>
               {selectedItems.map((item, index) => (
                 <li key={index}>
@@ -209,7 +209,7 @@ const Order = () => {
             {paymentMethod === "cash" && (
               <div>
                 <input type="number" value={cashPaid} onChange={(e) => setCashPaid(Number(e.target.value))} placeholder="Enter payment amount" />
-                <div>Change: Rp {change >= 0 ? change : 0}</div>
+                <div>Kembalian: Rp {change >= 0 ? change : 0}</div>
               </div>
             )}
             <button className="confirm-btn" onClick={handleConfirmPayment}>
