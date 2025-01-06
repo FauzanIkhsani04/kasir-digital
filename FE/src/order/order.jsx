@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import Link and useNavigate for navigation
 import { db } from "../firebase/firebase"; // Adjust path as necessary
-import { collection, getDocs, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import "../assets/order.css";
 import { FaQrcode, FaMoneyBillWave } from "react-icons/fa"; // Import icons for QRIS and Cash
 
@@ -64,7 +64,7 @@ const Order = () => {
 
   const handlePlaceOrder = () => {
     if (!customerName.trim()) {
-      setError("Silahkan Tambah Nama Pembeli.");
+      setError("Please enter the customer's name.");
       return;
     }
     setError("");
@@ -90,12 +90,12 @@ const Order = () => {
     }, {});
 
     try {
-      await addDoc(collection(db, "Nota"), {
+      await addDoc(collection(db, "bill"), {
         customer: customerName,
         order: orderDetails,
         paid: total,
         "payment-method": paymentMethod,
-        timestamp: serverTimestamp(),
+        timestamp: new Date().toISOString(), // Add timestamp here
       });
       navigate("/dashboard");
     } catch (error) {
@@ -115,15 +115,15 @@ const Order = () => {
           <div className="date">{currentDate}</div>
           <div className="time">{currentTime}</div>
           <Link to="/menu" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            Tambah Menu
+            Add Menu
           </Link>
         </div>
 
         <div className="categories">
-          <button className="category active">Semua Menu</button>
+          <button className="category active">All Menu</button>
         </div>
 
-        <input className="search" type="text" placeholder="Cari menu" value={searchQuery} onChange={handleSearch} />
+        <input className="search" type="text" placeholder="Search something on your mind" value={searchQuery} onChange={handleSearch} />
 
         <div className="menu-items">
           {filteredItems.map((item) => (
@@ -171,7 +171,7 @@ const Order = () => {
         </div>
 
         <button className="payment-btn" onClick={handlePlaceOrder}>
-          Beli
+          Place Order
         </button>
       </div>
 
@@ -179,7 +179,7 @@ const Order = () => {
       {showPaymentPopup && (
         <div className="payment-popup">
           <div className="popup-content">
-            <h3>Silahkan pilih metode Pembayaran</h3>
+            <h3>Select Payment Method</h3>
             <button className="payment-option" onClick={() => handlePaymentMethod("cash")}>
               <FaMoneyBillWave className="payment-icon" /> Cash
             </button>
@@ -187,7 +187,7 @@ const Order = () => {
               <FaQrcode className="payment-icon" /> QRIS
             </button>
             <button className="close-popup" onClick={() => setShowPaymentPopup(false)}>
-              Tutup
+              Close
             </button>
           </div>
         </div>
@@ -197,7 +197,7 @@ const Order = () => {
       {showSummaryPopup && (
         <div className="summary-popup">
           <div className="popup-content">
-            <h3>Rincian Pesanan</h3>
+            <h3>Order Summary</h3>
             <ul>
               {selectedItems.map((item, index) => (
                 <li key={index}>
@@ -209,14 +209,14 @@ const Order = () => {
             {paymentMethod === "cash" && (
               <div>
                 <input type="number" value={cashPaid} onChange={(e) => setCashPaid(Number(e.target.value))} placeholder="Enter payment amount" />
-                <div> Kembalian: Rp {change >= 0 ? change : 0}</div>
+                <div>Change: Rp {change >= 0 ? change : 0}</div>
               </div>
             )}
             <button className="confirm-btn" onClick={handleConfirmPayment}>
               Lunas
             </button>
             <button className="cancel-btn" onClick={() => setShowSummaryPopup(false)}>
-              Batalkan
+              Cancel
             </button>
           </div>
         </div>
@@ -225,4 +225,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default Order;
