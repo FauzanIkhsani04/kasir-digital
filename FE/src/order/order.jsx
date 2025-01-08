@@ -4,6 +4,7 @@ import { db } from "../firebase/firebase"; // Adjust path as necessary
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import "../assets/order.css";
 import { FaQrcode, FaMoneyBillWave } from "react-icons/fa"; // Import icons for QRIS and Cash
+import qris from "../assets/QRIS-Dummy.jpg";
 
 const Order = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -198,6 +199,8 @@ const Order = () => {
         <div className="summary-popup">
           <div className="popup-content">
             <h3>Rincian</h3>
+            <h4>Ini QRIS Dummy, Jangan di Scan</h4>
+            <img src={qris} alt="qris-dummy" />
             <ul>
               {selectedItems.map((item, index) => (
                 <li key={index}>
@@ -225,4 +228,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default Order;
