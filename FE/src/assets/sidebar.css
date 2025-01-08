@@ -20,6 +20,11 @@
   margin: 0 auto;
 }
 
+.logo-sate {
+  width: 5vw;
+  height: 5vh;
+}
+
 .sidebar nav {
   position: relative;
 }

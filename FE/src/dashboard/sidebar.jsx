@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="logo-container">
-        <img src="./sate.png" alt="Logo" className="logo" />
+        <img src="./sate.png" alt="Logo" className="logo-sate" />
       </div>
 
       <nav className="menu">
