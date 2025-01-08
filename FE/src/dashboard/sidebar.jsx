@@ -6,9 +6,9 @@ import "../dashboard/dashboard.jsx";
 const Sidebar = () => {
   return (
     <aside className="sidebar">
-      {/* <div className="logo-container">
-        <img src="./sukuna.png" alt="Logo" className="logo" />
-      </div> */}
+      <div className="logo-container">
+        <img src="./sate.png" alt="Logo" className="logo" />
+      </div>
 
       <nav className="menu">
         <ul>
