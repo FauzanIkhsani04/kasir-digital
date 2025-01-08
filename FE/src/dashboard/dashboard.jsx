@@ -38,7 +38,7 @@ const Dashboard = () => {
 
     const fetchOrderHistory = async () => {
       const orderData = [];
-      const orderQuery = query(collection(db, "bill"), orderBy("timestamp", "desc"), limit(5));
+      const orderQuery = query(collection(db, "Nota"), orderBy("timestamp", "desc"), limit(5));
       const querySnapshot = await getDocs(orderQuery);
       querySnapshot.forEach((doc) => {
         const { customer, paid } = doc.data();
