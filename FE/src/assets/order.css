@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto; /* Enable scrolling for long lists */
+  border-radius: 10px;
 }
 
 .header {
@@ -169,7 +170,7 @@
   color: #ff4b5c;
   cursor: pointer;
   font-size: 14px;
-  transition: color 8s ease;
+  transition: color 0.5s ease;
 }
 
 .order-item button:hover {
