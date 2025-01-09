@@ -4,6 +4,7 @@ import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Legend } from "chart.js";
 import { collection, getDocs, query, where, orderBy, limit } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -11,6 +12,7 @@ const Dashboard = () => {
   const [chartData, setChartData] = useState(null);
   const [orderHistory, setOrderHistory] = useState([]);
   const [incomeData, setIncomeData] = useState(null);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -98,11 +100,20 @@ const Dashboard = () => {
     fetchIncomeData();
   }, []);
 
+  const handleLogout = () => {
+    // Tambahkan proses logout jika diperlukan, misalnya menghapus token atau session
+    console.log("User logged out");
+    navigate("/"); // Arahkan ke halaman root
+  };
+
   return (
     <div className="dashboard-container">
       <main className="content">
         <header className="header">
           <div className="date-selector">Desember 2024 - Januari 2025</div>
+          <button className="category active" onClick={handleLogout}>
+            Logout
+          </button>
         </header>
         <section className="dashboard">
           <div className="dashboard-cards">
